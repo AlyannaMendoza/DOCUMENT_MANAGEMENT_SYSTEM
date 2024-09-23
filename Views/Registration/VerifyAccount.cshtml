@@ -1,0 +1,93 @@
+﻿@model DOH_ETS_External.Models.RegistrationVerifyAccountModel
+@{
+    ViewBag.Title = "Verify Account";
+}
+
+<div class="container">
+    <div class="col-md-2">
+
+    </div>
+    <div class="col-md-8">
+        <div>
+            <h3>
+                Step 1: Supplier Verification
+            </h3>
+            <div class="progress progress-striped active">
+                <div class="progress-bar" style="width: 65%"></div>
+            </div>
+        </div>
+        <center>
+            <h3>
+                Account Verification
+            </h3>
+            <hr />
+            <p>
+                Please input the Email Verification Code we've just send to your email to Access the SUPPLIER PORTAL.
+            </p>
+
+            @if (Model.Registration.Verified == true)
+            {
+                <div>
+                    THIS ACCOUNT IS ALREADY VALIDATED.
+                </div>
+            }
+            
+            @if (Model.Registration.Verified != true)
+            {
+
+                using (Html.BeginForm())
+                {
+                    <center>
+                        <table class="table">
+                            <tr>
+                                <td>
+                                    Code :
+                                </td>
+                                <td>
+                                    @Html.TextBox("code", null, new { @class = "form-control text" })
+                                    <div>
+                                        @ViewBag.Error
+                                    </div>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <input class="btn btn-danger btn-block" type="submit" value="Verify Account" />
+                                </td>
+                            </tr>
+                        </table>
+                    </center>
+
+
+
+                }
+
+            }
+        </center>
+
+
+    </div>
+    <div class="col-md-2">
+
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $('.text').keypress(function (e) {
+            var regex = new RegExp("^[a-zA-Z0-9]+$");
+            var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+            if (regex.test(str)) {
+                return true;
+            }
+
+            e.preventDefault();
+            return false;
+        });
+    </script>
+}

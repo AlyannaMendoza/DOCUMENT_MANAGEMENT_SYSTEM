@@ -1,0 +1,211 @@
+﻿@model DMS_v2.Models.RegistrationRequestCreateViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+<div class="container">
+    <div class="col-md-1">
+
+    </div>
+    <div class="col-md-10">
+        <br />
+        <div class="panel panel-default">
+            <center>
+                <h3>
+                    Request Account
+                </h3>
+                <hr />
+                <p>
+                    Before proceeding to DOH - MMCHD BED TRACKER SYSTEM, you may request an account for your transactions by filling up the form below. <br />
+                    You may used the account for future transaction to this system.
+                </p>
+
+                <br />
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <div class="container-fluid">
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    @Html.Label("First Name", new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control input-sm alpha req upper" })
+                                        @Html.ValidationMessageFor(model => model.FirstName)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Middle Name", new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.TextBoxFor(model => model.MiddleName, new { @class = "form-control input-sm alpha req upper" })
+                                        @Html.ValidationMessageFor(model => model.MiddleName)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Last Name", new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.TextBoxFor(model => model.LastName, new { @class = "form-control input-sm upper" })
+                                        @Html.ValidationMessageFor(model => model.LastName)
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.Label("Email Address", new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control input-sm req", @required = true })
+                                        <span style="color: #b94a48;">
+                                            @ViewBag.email
+                                        </span>
+                                        @Html.ValidationMessageFor(model => model.Email)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-1 col-md-10">
+                                <input type="submit" value="Submit Request" onclick="this.disabled = true; this.value = 'Submitting, please wait...'; this.form.submit();" class="btn btn-success btn-lg btn-block" />
+                            </div>
+                        </div>
+                    </div>
+
+
+                }
+            </center>
+        </div>
+
+
+
+    </div>
+    <div class="col-md-1">
+
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <link href="~/Content/select2-3.5.2/select2.css" rel="stylesheet" />
+    <link href="~/Content/select2-3.5.2/select2-bootstrap.css" rel="stylesheet" />
+    <script src="~/Content/select2-3.5.2/select2.min.js"></script>
+
+
+
+
+    <script type="text/javascript">
+                $('#PSGC_ProvinceId').change(function () {
+            var provinceId = $('#PSGC_ProvinceId option:selected').val();
+
+            if (provinceId == null) {
+                $('#PSGC_CityMunicipalityId').empty();
+                document.getElementById("PSGC_CityMunicipalityId").disabled = true;
+            }
+            else {
+                $('#PSGC_CityMunicipalityId').prop('required', true);
+                $.getJSON("@Url.Action("getTown", "Town")", { id: provinceId }, function (data) {
+                    $('#RECORDS_DocumentActionId').val("");
+                });
+            }
+        });
+
+
+        $('#PSGC_ProvinceId').change(function () {
+            var provinceId = $('#PSGC_ProvinceId option:selected').val();
+
+            if (provinceId == null) {
+                $('#PSGC_CityMunicipalityId').empty();
+                document.getElementById("PSGC_CityMunicipalityId").disabled = true;
+            }
+            else {
+                $('#PSGC_CityMunicipalityId').prop('required', true);
+                $.getJSON("@Url.Action("getTown", "Town")", { id: provinceId }, function (data) {
+                    $('#PSGC_CityMunicipalityId').empty();
+                    var town = "<option value=\"" + null + "\">-=Select City/Municipality=-</option>";
+
+                    $.each(data.list, function (index, da) {
+                        town += "<option value=\"" + da.Id + "\">" + da.PSGC_CityMunicipalityName + "</option>";
+                    });
+                    $('#PSGC_CityMunicipalityId').append(town);
+
+                    document.getElementById("PSGC_CityMunicipalityId").disabled = false;
+                });
+            }
+
+        });
+
+        $('.sl').select2({
+            placeholder: 'Select'
+        })
+
+        $.validator.setDefaults({
+            ignore: []
+        });
+
+        $('.required').validate({
+            errorElement: 'span',
+            errorClass: 'error',
+            rules: {
+                singleselect: 'required',
+                multipleselect: 'required',
+                name: 'required'
+            },
+
+            highlight: function (element, errorClass, validClass) {
+
+                var elem = $(element);
+
+                if (elem.hasClass('s-select2')) {
+                    var isMulti = (!!elem.attr('multiple')) ? 's' : '';
+                    elem.siblings('.sl').find('.select2-choice' + isMulti + '').addClass(errorClass);
+                } else {
+                    elem.addClass(errorClass);
+                }
+
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                var elem = $(element);
+
+                if (elem.hasClass('sl')) {
+                    elem.siblings('.sl').find('.select2-choice').removeClass(errorClass);
+                } else {
+                    elem.removeClass(errorClass);
+                }
+            }
+        });
+
+
+    $(".alpha").keypress(function (event) {
+        var inputValue = event.which;
+        //if digits or not a space then don't let keypress work.
+        if ((inputValue > 47 && inputValue < 58) && (inputValue != 32)) {
+            event.preventDefault();
+        }
+    });
+
+    $(function () {
+        $('.upper').keyup(function () {
+            this.value = this.value.toUpperCase();
+        });
+    });
+
+    $('.req').prop('required', true);
+
+
+
+    </script>
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+
+
+
+}

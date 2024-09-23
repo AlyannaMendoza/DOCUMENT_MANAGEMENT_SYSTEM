@@ -1,0 +1,114 @@
+﻿@model DMS_v2.Models.RegistrationCreateViewModel
+
+@{
+    ViewBag.Title = "Upload Profile Picture";
+}
+
+<br />
+<div class="container-fluid">
+    <div class="col-md-1">
+
+    </div>
+    <div class="col-md-10">
+        <br />
+        <div class="box box-primary">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="box-body">
+
+                    <script src="~/Scripts/jquery.validate.js"></script>
+                    <script src="~/Scripts/jquery.validate.min.js"></script>
+
+                    <center>
+
+                        Account Registration is successful.<br />
+                        <h3>
+                            <b>
+                                ACCOUNT INFORMATION
+                            </b>
+
+                        </h3>
+                    </center>
+
+
+                    <br />
+
+
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>
+                                Full Name
+                            </th>
+                            <td>
+                                @Model.Registration.FirstName @Model.Registration.MiddleName @Model.Registration.LastName
+                            </td>
+                            <th>
+                                Account
+                            </th>
+                        </tr>
+
+                        <tr>
+                            <th>
+                                Email Address
+                            </th>
+                            <td>
+                                @Model.Registration.Email
+                            </td>
+
+                            <th>
+                                User Type
+                            </th>
+                            <td>
+                                @Model.Registration.AccountType
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>
+                                Registration Date
+                            </th>
+                            <td>
+                                @Model.Registration.RegistrationDate.Value.ToString("dd/MMM/yyyy")
+                            </td>
+                            <th >
+                                User Name
+                            </th>
+                            <th style="background-color: #ff6a6a">
+                                @Model.Registration.UserName
+                            </th>
+
+                        </tr>
+
+                        <tr>
+                            
+
+                            <th>
+                                Default Password
+                            </th>
+                            <th style="background-color:#ff6a6a">
+                                @Model.Registration.Code
+                            </th>
+                        </tr>
+                    </table>
+
+                </div>
+            <!-- /.box-body -->
+                <div class="box-footer">
+
+                    <div class="form-group">
+                        <div class="col-md-offset-10 col-md-2">
+
+                            <a href="@Url.Action("Details", "Registration", new { id = Model.Registration.Id })" class="btn btn-primary btn-block pull-right">Done &nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-md-1">
+
+    </div>
+</div>
+

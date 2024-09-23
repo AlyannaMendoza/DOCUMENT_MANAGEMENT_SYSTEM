@@ -1,0 +1,51 @@
+﻿@model DMS_v2.Models.RegistrationVerifyAccountModel
+
+@{
+    ViewBag.Title = "Registration Request Success";
+}
+
+<div class="container">
+    <div class="col-md-2">
+
+    </div>
+    <div class="col-md-8">
+
+        <br />
+        <br />
+        <br />
+        <br />
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <center>
+
+                    <h2 class="text-green">
+                        Request for Account Registration
+                    </h2>
+                    <hr />
+                    <p style="font-size:1.2em;">
+                        Hello @Model.RegistrationRequest.FirstName! Your Request for Account Registration is Successful. <br />
+                        You may proceed to KMITS - IT to verify your account  and claim your USERNAME and PASSWORD. <br />
+                        You may used this account for your transactions to this system. Thank you!
+                    </p>
+
+                    <br />
+
+                    <br />
+                    <br />
+
+
+                </center>
+            </div>
+        </div>
+
+        <center>
+            <h2>
+                <a href="@Url.Action("Login","Account")"> Log In Page <i class="fa fa-arrow-circle-o-right"></i></a>
+            </h2>
+        </center>
+
+    </div>
+    <div class="col-md-2">
+
+    </div>
+</div>

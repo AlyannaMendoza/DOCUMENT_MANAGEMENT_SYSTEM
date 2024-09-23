@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMS</title>
+
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    @*<link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />*@
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    @*@Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")*@
+    <style>
+        #go-top {
+            position: fixed;
+            bottom: 8px;
+            right: 16px;
+            display: none;
+            font-size: 25px;
+            font-weight: bolder;
+        }
+    </style>
+</head>
+<body style="text-transform: uppercase;">
+
+    <nav class="navbar navbar-default navbar-fixed-top" style="margin-top:1em;">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="@Url.Action("Index", "Home")">
+                    <div style="margin-top:-1.5em;">
+                        <img src="~/Content/logo.png" style="width:4.5em;" />
+                    </div>
+                </a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index","Home")" style="font-weight:400; font-size:1em;">Home</a>
+                    </li>
+                </ul>
+                @Html.Action("_NavBar", "Template")
+                @using Microsoft.AspNet.Identity
+                @if (Request.IsAuthenticated)
+                {
+                    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="container-fluid">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><b>@Custom.Controllers.dbEmployee.RegistrationNow().FirstName @Custom.Controllers.dbEmployee.RegistrationNow().LastName</b> <span class="caret"></span></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="@Url.Action("Details","Registration", new { id = @Custom.Controllers.dbEmployee.RegistrationNow().Id })">My Profile</a></li>
+                                        <li><a href="@Url.Action("ChangePassword", "Manage")">Manage Password</a></li>
+                                        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                        </div>
+                    }
+                }
+                else
+                {
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("LogIn","Account")" style="font-weight:400; font-size:1em;">
+                                Log In
+                            </a>
+                        </li>
+                    </ul>
+                }
+            </div>
+        </div>
+    </nav>
+    <style>
+        .dropdown:hover > .dropdown-menu {
+            display: block;
+        }
+
+        .mouse-invisible {
+            cursor: none;
+        }
+
+        #content-main {
+            display: none;
+        }
+    </style>
+    <br><br>
+    <div class="container-fluid">
+        <div class="" style="padding-top:3em;">
+            @RenderBody()
+        </div>
+    </div>
+    <hr />
+    <footer>
+        <p> &nbsp;&nbsp; &copy; @DateTime.Now.Year - DEPARTMENT OF HEALTH - MMCHD - Knowledge Management and Information Technology SECTION</p>
+    </footer>
+
+
+    <script src="~/Content/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+
+
+    <link href="~/Content/select2-3.5.2/select2.css" rel="stylesheet" />
+    <link href="~/Content/select2-3.5.2/select2-bootstrap.css" rel="stylesheet" />
+    <script src="~/Content/select2-3.5.2/select2.min.js"></script>
+
+    <!-- swal alert box -->
+    <link href="~/Content/sweetalert-master/sweetalert-master/dist/sweetalert.css" rel="stylesheet" />
+    <script src="~/Content/sweetalert-master/sweetalert-master/dist/sweetalert.min.js"></script>
+    <script src="~/Content/plugins/chartjs/Chart.min.js"></script>
+
+    <!-- DataTables -->
+    <script src="~/Content/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Content/plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <link rel="stylesheet" href="~/Content/plugins/datatables/dataTables.bootstrap.css">
+
+    <script>
+        $(document).ready(function () {
+
+            $('#init-loader').fadeOut("slow", function () {
+                $('#content-main').fadeIn();
+                $(this).remove();
+            });
+
+
+        });
+    </script>
+
+
+    @RenderSection("scripts", required: false)
+
+
+</body>
+</html>

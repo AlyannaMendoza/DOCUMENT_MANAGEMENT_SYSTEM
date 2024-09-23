@@ -1,0 +1,288 @@
+﻿@model DMS_v2.Models.RegistrationCreateViewModel
+
+@{
+    ViewBag.Title = "Create Registration Entry";
+}
+<br />
+<div class="container-fluid">
+        <div class="box box-primary">
+            @using (Html.BeginForm("Create", "Registration"))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="box-header">
+                    <div id="nonemployee">
+                        <table>
+                            <tr>
+                                <th style="width:35%;">
+                                    <center>
+                                        <i class="fa fa-user-plus text-primary" style="font-size:2em;"></i>
+                                        <br />
+                                        ACCOUNT INFORMATION
+                                    </center>
+
+                                </th>
+
+                                <th style="width:35%;">
+                                    <center>
+                                        <i class="fa fa-check-circle-o" style="font-size:2em;"></i>
+                                        <br />
+
+                                        DONE!
+                                    </center>
+
+                                </th>
+
+                            </tr>
+                        </table>
+
+                        <br />
+
+                        <center>
+
+                            <div class="progress xs">
+                                <div class="progress-bar progress-bar-primary" style="width: 50%;"></div>
+                            </div>
+                        </center>
+                    </div>
+
+                </div>
+
+                <div class="box-body">
+
+                    <script src="~/Scripts/jquery.validate.js"></script>
+                    <script src="~/Scripts/jquery.validate.min.js"></script>
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true)
+
+                        <center>
+                            <h4>
+                                <b>
+                                    ACCOUNT TYPE
+                                </b>
+                            </h4>
+                        </center>
+
+                        <hr />
+                        <div class="container-fluid">
+
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td>
+
+                                        <div class="form-group">
+                                            @Html.Label("USER TYPE:", new { @class = "control-label col-md-4", @style = "text-align:left;" })
+                                            <div class="col-md-8">
+                                                <table>
+                                                    <tr>
+                                                        <td style="width:20%;">
+                                                            @Html.RadioButtonFor(i => i.AccountType, "Administrator", new { @class = "input-sm req", style = "width: 2em;", required = "required" })
+                                                        </td>
+                                                        <td>
+                                                            <strong>Administrator</strong>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+
+                                                        <td>
+                                                            @Html.RadioButtonFor(i => i.AccountType, "Standard User", new { @class = "input-sm req", style = "width: 2em;", required = "required" })
+                                                        </td>
+                                                        <td>
+                                                            <strong>Standard User</strong>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                @Html.ValidationMessageFor(model => model.AccountType)
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+
+
+
+
+
+                        <br />
+
+                        <center>
+                            <h4>
+                                <b>
+                                    ACCOUNT INFORMATION
+                                </b>
+
+                            </h4>
+
+                        </center>
+
+                        <hr />
+                        <div class="container-fluid">
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    @Html.Label("FIRST NAME", new { @class = "control-label col-md-4" })
+                                    <div class="col-md-6">
+                                        @Html.TextBoxFor(model => model.FirstName, new { Value = Model.RegistrationRequest.FirstName, @class = "req form-control input-sm alpha upper" })
+                                        @Html.ValidationMessageFor(model => model.FirstName)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("MIDDLE NAME", new { @class = "control-label col-md-4" })
+                                    <div class="col-md-6">
+                                        @Html.TextBoxFor(model => model.MiddleName, new { Value = Model.RegistrationRequest.MiddleName, @class = "form-control input-sm upper" })
+                                        @Html.ValidationMessageFor(model => model.MiddleName)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("LAST NAME", new { @class = "control-label col-md-4" })
+                                    <div class="col-md-6">
+                                        @Html.TextBoxFor(model => model.LastName, new { @Value = Model.RegistrationRequest.LastName, @class = "req form-control input-sm upper" })
+                                        @Html.ValidationMessageFor(model => model.LastName)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.Label("EMAIL ADDRESS", new { @class = "control-label col-md-4" })
+                                    <div class="col-md-6">
+                                        @Html.TextBoxFor(model => model.Email, new { @Value = Model.RegistrationRequest.Email, @class = "form-control input-sm req" })
+                                        <span style="color: #b94a48;">
+                                            @ViewBag.email
+                                        </span>
+                                        @Html.ValidationMessageFor(model => model.Email)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("EXPIRY DATE", new { @class = "control-label col-md-4" })
+                                    <div class="col-md-6">
+                                        @Html.TextBoxFor(model => model.ExpiryDate, new { type = "date", @class = "form-control input-sm" })
+                                        @Html.ValidationMessageFor(model => model.ExpiryDate)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            <!-- /.box-body -->
+                <div class="box-footer">
+
+                    <div class="form-group">
+                        <div class="col-md-offset-10 col-md-2">
+                            
+                            <button type="submit" value="" class="btn btn-primary btn-block pull-right">Next Step &nbsp;&nbsp;<i class="fa fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+</div>
+<style>
+    .none {
+        display: none;
+    }
+
+    .showDIV {
+        display: block;
+    }
+</style>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+            $('#employee').hide();
+            $('#nonemployee').show();
+
+  
+        });
+
+        function showEmployee() {
+            $('#employee').show();
+
+
+            $("#employee").removeClass("none");
+            $("#employee").addClass("showDIV");
+
+            //Make sure schoolDIV is not visible
+            $("#nonemployee").removeClass("showDIV");
+            $("#nonemployee").addClass("none");
+        }
+
+        function showNonEmployee() {
+            
+            $('#employee').hide();
+            $("#nonemployee").removeClass("none");
+            $("#nonemployee").addClass("showDIV");
+
+            //Make sure bankDIV is not visible
+            $("#employee").removeClass("showDIV");
+            $("#employee").addClass("none");
+        }
+    </script>
+
+    <script>
+
+
+        $('.req').prop('required', true);
+
+        $(function () {
+            $('.upper').keyup(function () {
+                this.value = this.value.toUpperCase();
+            });
+        });
+
+        $(".Alpha").keypress(function (event) {
+            var inputValue = event.which;
+            //if digits or not a space then don't let keypress work.
+            if ((inputValue > 47 && inputValue < 58) && (inputValue != 32)) {
+                event.preventDefault();
+            }
+        });
+
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode != 46 && charCode > 31
+              && (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }
+    </script>
+    <script>
+        var blank = "http://upload.wikimedia.org/wikipedia/commons/c/c0/Blank.gif";
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#img_prev')
+                    .attr('src', e.target.result)
+                    .height(162);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+            else {
+                var img = input.value;
+                $('#img_prev').attr('src', img).height(162);
+            }
+            $("#x").show().css("margin-right", "10px");
+        }
+        $(document).ready(function () {
+            $("#x").click(function () {
+                $("#img_prev").attr("src", blank);
+                $("#x").hide();
+            });
+        });
+
+    </script>
+
+}

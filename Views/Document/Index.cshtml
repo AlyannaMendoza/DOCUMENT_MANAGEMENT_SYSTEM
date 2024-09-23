@@ -1,0 +1,102 @@
+﻿@model IEnumerable<DMS_v2.Models.Document>
+
+@{
+    ViewBag.Title = "UPLOADED DOCUMENTS";
+}
+
+<br />
+<div class="container-fluid">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            @ViewBag.Title
+        </div>
+        <div class="panel-body">
+            <div class="container-fluid">
+                @if (Request.IsAuthenticated)
+                {
+                    if (Custom.Controllers.dbEmployee.UserPrivilegeNow().Where(i => i.PrivilegeId == 2).Count() > 0)
+                    {
+                <p>
+                    @Html.ActionLink("Upload Documents", "Create")
+                </p>
+                    }
+                }
+            </div>
+            <table class="table tablesort table-condensed table-striped">
+                <thead>
+                    <tr>
+                        <td>
+                            FILE NAME
+                        </td>
+                        <td>
+                            DATE OF UPLOAD
+                        </td>
+                        <td>
+                            UPLOADED BY
+                        </td>
+                        <td>
+                            DOCUMENT CATEGORY
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderByDescending(i => i.Id))
+                    {
+                    <tr>
+                        <td>
+                            @item.FileName
+                        </td>
+                        <td>
+                            @item.DateUploaded
+                        </td>
+                        <td>
+                            @item.UploadedByRegistration.FirstName
+                        </td>
+                        <td>
+                            @item.DocumentCategory.DocumentCategories
+                        </td>
+
+                        <td style="width:15%;">
+                            <a href="@Url.Content("~/Content/Public/Document/" + item.FileName + item.Extension )" target="_blank">
+                                <i class="fa fa-download"></i> Open
+                            </a>
+                        </td>
+
+                        <td>
+            @Html.ActionLink("View", "Details", new { id = item.Id })
+        </td>
+
+                    </tr>
+
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+</div>
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Content/plugins/jQuery/jquery-2.2.3.min.js"></script>
+
+    <!-- DataTables -->
+    <script src="~/Content/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Content/plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <link rel="stylesheet" href="~/Content/plugins/datatables/dataTables.bootstrap.css">
+    <script>
+                $(function () {
+
+                    $('.tablesort').DataTable({
+                        "paging": true,
+                        "lengthChange": true,
+                        "searching": true,
+                        "info": true,
+                        "autoWidth": true
+                    });
+                });
+    </script>
+}

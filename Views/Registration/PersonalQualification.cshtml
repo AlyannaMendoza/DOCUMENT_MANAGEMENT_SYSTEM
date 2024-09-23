@@ -1,0 +1,421 @@
+﻿@model DMS_v2.Models.PersonalQualificationViewModel
+
+@{
+    ViewBag.Title = "Create Registration Entry";
+}
+<br />
+<div class="container-fluid">
+    <div class="col-md-1">
+
+    </div>
+    <div class="col-md-10">
+        <br />
+        <div class="box box-primary">
+            @using (Html.BeginForm("PersonalQualification", "Registration"))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="box-header">
+                    <div id="employee">
+                        <table>
+                            <tr>
+                                <th style="width:25%;">
+                                    <center>
+                                        <i class="fa fa-user-plus text-primary" style="font-size:2em;"></i>
+                                        <br />
+                                        ACCOUNT INFORMATION
+                                    </center>
+
+                                </th>
+
+                                <th style="width:25%;">
+                                    <center> 
+                                        <i class="fa fa-bank text-primary" style="font-size:2em;"></i>
+                                        <br />
+
+                                        PERSONAL QUALIFICATION
+                                    </center>
+
+                                </th>
+
+                                <th style="width:25%;">
+                                    <center>
+                                        <i class="fa fa-file-image-o " style="font-size:2em;"></i>
+                                        <br />
+
+                                        PROFILE PICTURE
+                                    </center>
+
+                                </th>
+
+                                <th style="width:25%;">
+                                    <center>
+                                        <i class="fa fa-check-circle-o" style="font-size:2em;"></i>
+                                        <br />
+
+                                        DONE!
+                                    </center>
+
+                                </th>
+
+                            </tr>
+
+                        </table>
+
+                        <br />
+
+                        <center>
+
+                            <div class="progress xs">
+                                <div class="progress-bar progress-bar-primary" style="width: 50%;"></div>
+                            </div>
+                        </center>
+                    </div></div>
+
+                <div class="box-body">
+
+                    <script src="~/Scripts/jquery.validate.js"></script>
+                    <script src="~/Scripts/jquery.validate.min.js"></script>
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true)
+
+                        <div class="form-horizontal">
+
+                            <div class="">
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        @Html.Label("EMPLOYMENT STATUS:", new { @class = "control-label col-md-4", @style = "text-align:left;" })
+                                        <div class="col-md-8">
+                                            <table>
+                                                <tr>
+                                                    <td style="width:20%;">
+                                                        @Html.RadioButtonFor(i => i.IsRegular, "True", new { @class = "input-sm req", style = "width: 2em;", onclick = "Regular()" })
+                                                    </td>
+                                                    <td>
+                                                        <strong>Regular</strong>
+                                                    </td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @Html.RadioButtonFor(i => i.IsRegular, "False", new { @class = "input-sm req", style = "width: 2em;", onclick = "JobOrder()" })
+                                                    </td>
+                                                    <td>
+                                                        <strong>Job Order</strong>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            @Html.ValidationMessageFor(model => model.IsRegular)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.Label("POSITION ", new { @class = "control-label col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.DropDownListFor(model => model.PositionId, (SelectList)ViewBag.PositionId, new { @class = "form-control req", style = "width: 100%;" })
+                                            @Html.ValidationMessageFor(model => model.PositionId)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.Label("SECTION", new { @class = "control-label col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.DropDownListFor(model => model.DepartmentId, (SelectList)ViewBag.DepartmentId, new { @class = "select2 form-control required", style = "width: 100%;" })
+                                            @Html.ValidationMessageFor(model => model.DepartmentId)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.Label("DIVISION", new { @class = "control-label col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.DropDownListFor(model => model.WorkStationId, (SelectList)ViewBag.WorkStationId, new { @class = "select2 form-control required", style = "width: 100%;" })
+                                            @Html.ValidationMessageFor(model => model.WorkStationId)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" id="pay">
+                                        @Html.Label("PAYEE CODE", new { @class = "control-label col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(model => model.PayeeCode, new { @class = "req form-control alpha upper reg" })
+                                            @Html.ValidationMessageFor(model => model.PayeeCode)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.Label("EMPLOYEE NUMBER", new { @class = "control-label col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(model => model.EmployeeNumber, new { Value = Model.EmployeeNumber, @class = "req form-control alpha upper req" })
+                                            @Html.ValidationMessageFor(model => model.EmployeeNumber)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.Label("DATE HIRED", new { @class = "control-label col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(model => model.DateHired, new { type = "date", @class = "req form-control alpha upper req", style = "width: 100%;" })
+                                            @Html.ValidationMessageFor(model => model.DateHired)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>
+                                        <h6>
+                                            NOTE: PUT CHECK IF YOU DONT HAVE THE FOLLOWING
+                                        </h6>
+                                    </div>
+
+                                    <div class="">
+                                        <p>
+                                            <input type="checkbox" id="tincheck" name="tincheck" class="tincheck" /> Check if you dont have TIN (Tax Identification Number)
+                                        </p>
+
+                                        <div class="form-group" id="tin">
+                                            @Html.Label("TIN ID", new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.TinId, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.TinId)
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="">
+                                        <p>
+                                            <input type="checkbox" id="philhealthcheck" name="philhealthcheck" class="philhealthcheck" /> Check if you dont have PHILHEALTH IDENTIFICATION NUMBER
+                                        </p>
+
+                                        <div class="form-group" id="philhealth">
+                                            @Html.Label("PHILHEALTH ID", new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.PhilhealthId, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.PhilhealthId)
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="">
+                                        <p>
+                                            <input type="checkbox" id="pagibigcheck" name="pagibigcheck" class="pagibigcheck" /> Check if you dont have PAGIBIG IDENTIFICATION NUMBER
+                                        </p>
+
+                                        <div class="form-group" id="pagibig">
+                                            @Html.Label("PAGIBIG ID", new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.PagibigId, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.PagibigId)
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="">
+                                        <p>
+                                            <input type="checkbox" id="ssscheck" name="ssscheck" class="ssscheck" /> Check if you dont have SSS IDENTIFICATION NUMBER
+                                        </p>
+
+                                        <div class="form-group" id="sss">
+                                            @Html.Label("SSS ID", new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.SssId, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.SssId)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            <!-- /.box-body -->
+                <div class="box-footer">
+
+                    <div class="form-group">
+                        <div class="col-md-offset-10 col-md-2">
+
+                            <button type="submit" value="" class="btn btn-primary btn-block pull-right">Next Step &nbsp;&nbsp;<i class="fa fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-md-1">
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery.mask.js"></script>
+    <script src="~/Content/demo/scripts/main.js"></script>
+<link href="~/Content/select2-3.5.2/select2.css" rel="stylesheet" />
+<link href="~/Content/select2-3.5.2/select2-bootstrap.css" rel="stylesheet" />
+<script src="~/Content/select2-3.5.2/select2.min.js"></script>
+<script>
+        $(document).ready(function () {
+            $('#pay').show();
+        });
+
+        function Regular() {
+            $('#pay').show();
+            $('#pay').prop('required', true);
+        }
+
+        function JobOrder() {
+
+            $('#pay').hide();
+            $('#pay').prop('required', false);
+        }
+</script>
+
+    <script type="text/javascript">
+
+
+        $('.req').prop('required', true);
+
+    jQuery(function ($) {
+
+        $("#TinId").mask("999-999-999");
+        $("#SssId").mask("99-9999999-9");
+        $("#PagibigId").mask("9999-9999-9999");
+        $("#PhilhealthId").mask("99-999999999-9");
+        $("#GsisId").mask("99-999999999-9");
+    });
+
+    </script>
+
+    <script type="text/javascript">
+
+        $('#tin').show();
+        $('#philhealth').show();
+        $('#pagibig').show();
+        $('#sss').show();
+        $('#Prctab').show();
+        $('#passport').show();
+        $('#drivers').show();
+
+        $('#prccheck').change(function () {
+            $('#prc').show();
+            if ($("#prccheck").is(':checked'))
+                $("#prc").hide();  // checked
+            else
+                $("#prc").show();  // unchecked
+        });
+
+        $('#driverscheck').click(function () {
+            $('#drivers').show();
+            if ($("#driverscheck").is(':checked'))
+                $("#drivers").hide();  // checked
+            else
+                $("#drivers").show();  // unchecked
+        });
+
+        $('#passportcheck').click(function () {
+            $('#passport').show();
+            if ($("#passportcheck").is(':checked'))
+                $("#passport").hide();  // checked
+            else
+                $("#passport").show();  // unchecked
+        });
+
+
+        $('.tincheck').click(function () {
+            $('#tin').show();
+            if ($("#tincheck").is(':checked'))
+                $("#tin").hide();  // checked
+            else
+                $("#tin").show();  // unchecked
+        });
+
+        $('#EmploymentCategoryId').change(function () {
+            if ($(this).val() === "1") {
+                $('.employeetab').show();
+            } else {
+                $('.employeetab').hide();
+            }
+        });
+
+        $('#philhealthcheck').click(function () {
+            $('#philhealth').show();
+            if ($("#philhealthcheck").is(':checked'))
+                $("#philhealth").hide();  // checked
+            else
+                $("#philhealth").show();  // unchecked
+        });
+
+        $('#pagibigcheck').change(function () {
+            $('#pagibig').show();
+            if ($("#pagibigcheck").is(':checked'))
+                $("#pagibig").hide();  // checked
+            else
+                $("#pagibig").show();  // unchecked
+        });
+
+        $('#ssscheck').change(function () {
+            $('#sss').show();
+            if ($("#ssscheck").is(':checked'))
+                $("#sss").hide();  // checked
+            else
+                $("#sss").show();  // unchecked
+        });
+
+        $(".Alpha").keypress(function (event) {
+            var inputValue = event.which;
+            //if digits or not a space then don't let keypress work.
+            if ((inputValue > 47 && inputValue < 58) && (inputValue != 32)) {
+                event.preventDefault();
+            }
+        });
+
+    </script>
+
+<script>
+        $(document).ready(function () {
+
+            $('.sl').select2({
+                placeholder: 'Select'
+            })
+
+            $.validator.setDefaults({
+                ignore: []
+            });
+
+            $('.required').validate({
+                errorElement: 'span',
+                errorClass: 'error',
+                rules: {
+                    singleselect: 'required',
+                    multipleselect: 'required',
+                    name: 'required'
+                },
+
+                highlight: function (element, errorClass, validClass) {
+
+                    var elem = $(element);
+
+                    if (elem.hasClass('s-select2')) {
+                        var isMulti = (!!elem.attr('multiple')) ? 's' : '';
+                        elem.siblings('.sl').find('.select2-choice' + isMulti + '').addClass(errorClass);
+                    } else {
+                        elem.addClass(errorClass);
+                    }
+
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    var elem = $(element);
+
+                    if (elem.hasClass('sl')) {
+                        elem.siblings('.sl').find('.select2-choice').removeClass(errorClass);
+                    } else {
+                        elem.removeClass(errorClass);
+                    }
+                }
+            });
+
+            $('select').on('change', function () {
+                $(this).valid();
+            });
+
+        });
+</script>
+}

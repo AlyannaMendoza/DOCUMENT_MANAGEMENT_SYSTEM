@@ -1,0 +1,128 @@
+﻿@model DMS_v2.Models.RegistrationDetailsViewModel
+
+@{
+    ViewBag.Title = "Upload Profile Picture";
+}
+
+<div class="container-fluid">
+    <div class="col-md-3">
+        <div class="box box-default">
+            <div class="">
+                <ul class="nav nav-pills nav-stacked">
+                    <li role="presentation"><a href="@Url.Action("EditPersonalDetails","Employee", new { id = Model.Employee.Id})">Personal Details</a></li>
+                    <li role="presentation"><a href="@Url.Action("EditPersonalQualification","Employee", new { id = Model.Employee.Id})">Personal Qualification</a></li>
+                    <li role="presentation"  class="active"><a href="@Url.Action("UpdateProfilePicture","Employee", new { id = Model.Employee.Id})">Profile Picture</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-9">
+        <div class="panel panel-default">
+
+            <div class="panel-body">
+                <div class="container-fluid">
+
+                    @using (Html.BeginForm("UpdateProfilePicture", "Registration", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                        @Html.AntiForgeryToken()
+
+                                <script src="~/Scripts/jquery.validate.js"></script>
+                                <script src="~/Scripts/jquery.validate.min.js"></script>
+                                <div class="form-horizontal">
+                                    @Html.ValidationSummary(true)
+
+
+                                    <center>
+                                        <div class="container-fluid">
+                                            <span id="previewPane" style="margin:1em;">
+                                                <div id="message">
+                                                    <span class="label label-danger" style="font-size:smaller;">
+                                                        PLEASE PROVIDE YOUR PICTURE <br />
+                                                        PHOTO MUST BE 1x1 WITH WHITE BACKGROUND
+                                                    </span>
+                                                </div>
+                                                <img id="img_prev" src="" alt="1x1" style="width: 10em; height: 10em; " class="img-thumbnail" />
+                                            </span>
+                                        </div>
+                                        <div class="">
+                                            <strong>Choose Image : &nbsp; </strong>
+                                            <input type="file" onchange="readURL(this);" name="file" id="file" class="input-sm form-control" style="width:100%" required />
+                                            <h6>IMAGE IS REQUIRED</h6>
+                                            <span class="text-red">
+                                                @ViewBag.Error
+                                            </span>
+                                        </div>
+                                    </center>
+                                    <div class="form-group">
+                                        <div class="col-md-offset-8 col-md-4">
+                                            <button type="submit" class="btn btn-primary pull-right">Save and Go to Next Page &nbsp;<i class="fa fa-arrow-right"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                    }
+                </div>
+            </div>
+            <div class="col-md-1">
+
+            </div>
+        </div>
+</div>
+</div>
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+            <script src="~/Scripts/jquery.mask.js"></script>
+            <script src="~/Scripts/jquery.validate.min.js"></script>
+            <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+            <script type="text/javascript">
+
+        $(".alpha").keypress(function (event) {
+            var inputValue = event.which;
+            //if digits or not a space then don't let keypress work.
+            if ((inputValue > 47 && inputValue < 58) && (inputValue != 32)) {
+                event.preventDefault();
+            }
+        });
+
+        $(function () {
+            $('.upper').keyup(function () {
+                this.value = this.value.toUpperCase();
+            });
+        });
+
+        $('.req').prop('required', true);
+            </script>
+            <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+            <script>
+        var blank = "http://upload.wikimedia.org/wikipedia/commons/c/c0/Blank.gif";
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#img_prev')
+                    .attr('src', e.target.result)
+                    .height(162);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+            else {
+                var img = input.value;
+                $('#img_prev').attr('src', img).height(162);
+            }
+            $("#x").show().css("margin-right", "10px");
+        }
+        $(document).ready(function () {
+            $("#x").click(function () {
+                $("#img_prev").attr("src", blank);
+                $("#x").hide();
+            });
+        });
+
+            </script>
+        }

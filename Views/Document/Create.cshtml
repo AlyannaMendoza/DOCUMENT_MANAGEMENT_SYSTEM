@@ -1,0 +1,96 @@
+﻿@model DMS_v2.Models.Document
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="container-fluid">
+    <div class="col-md-3">
+
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                @ViewBag.Title
+            </div>
+            <div class="panel-body">
+                <script src="~/Scripts/jquery.validate.min.js"></script>
+                <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+                @using (Html.BeginForm("Create", "Document", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true)
+
+                    <div class="well">
+                        <br />
+                        <center>
+                            <div class="">
+                                <input type="file" onchange="readURL(this);" name="file" id="file" class="form-control" style="width:100%" accept=".pdf, .jpg, .jpeg, .png" required />
+                            </div>
+                            @Html.ValidationMessage("file")
+                        </center>
+                        <br />
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("DOCUMENT CATEGORY", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("DocumentCategoryId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.DocumentCategoryId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @*<div class="form-group">
+                        @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.Description, new { @class = "form-control upper req" })
+                            @Html.ValidationMessageFor(model => model.Description)
+                        </div>
+                    </div>*@
+
+                    <div class="form-group">
+                        <div class="col-md-offset-4 col-md-8">
+                            <input type="submit" value="Upload File" class="btn btn-primary btn-block" />
+                        </div>
+                    </div>
+                </div>
+                }
+
+            </div>
+
+        </div>
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    </div>
+    <div class="col-md-3">
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+
+    $(".alpha").keypress(function (event) {
+        var inputValue = event.which;
+        //if digits or not a space then don't let keypress work.
+        if ((inputValue > 47 && inputValue < 58) && (inputValue != 32)) {
+            event.preventDefault();
+        }
+    });
+
+    $(function () {
+        $('.upper').keyup(function () {
+            this.value = this.value.toUpperCase();
+        });
+    });
+
+    $('.req').prop('required', true);
+    </script>
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+
+}

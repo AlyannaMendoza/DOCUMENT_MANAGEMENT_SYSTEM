@@ -1,0 +1,43 @@
+﻿@model DMS_v2.Models.RegistrationVerifyAccountModel
+@{
+    ViewBag.Title = "Account Verification";
+}
+
+<div class="container">
+    <div class="col-md-2">
+
+    </div>
+    <div class="col-md-8">
+        <div>
+            <h3>
+                Step 3: Account Verified
+            </h3>
+            <div class="progress progress-striped active">
+                <div class="progress-bar" style="width: 100%"></div>
+            </div>
+        </div>
+        <center>
+            <hr />
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+
+                </div>
+                <div class="panel-body">
+                    <p style="font-size:1.2em">
+                        Congratulations! Your Account has been Verified. <br />
+                        Please use your Email and Password to Login.
+                        <a href="@Url.Action(" Login", "Account" )">Click here to Login</a>
+                    </p>
+                </div>
+
+            </div>
+
+        </center>
+
+
+    </div>
+    <div class="col-md-2">
+
+    </div>
+</div>

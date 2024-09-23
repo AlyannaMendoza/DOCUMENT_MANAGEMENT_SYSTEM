@@ -1,0 +1,85 @@
+﻿@model DMS_v2.Models.RegistrationRequestIndexViewModel
+
+@{
+    ViewBag.Title = "Registration Request List";
+}
+
+<br />
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        REGISTRATION REQUEST
+    </div>
+    <!-- /.box-header -->
+    <div class="panel-body">
+        <table class="table table-bordered table-striped table-hover tablesort">
+            <thead>
+                <tr>
+                    <th style="text-align:center;">
+                        Full Name
+                    </th>
+
+                    <th style="text-align:center;">
+                        Email Address
+                    </th>
+
+                    <th style="text-align:center;">
+                        Date Requested
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model.RegistrationRequests.Where(i => i.AccountInformation == false))
+                {
+                    <tr>
+                        <td>
+                            @item.FirstName @item.MiddleName @item.LastName
+                        </td>
+
+                        <td>
+                            @item.Email
+                        </td>
+
+                        <td>
+                            @item.RequestDate.Value.ToString("dd/MMM/yyyy")
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="@Url.Action("Create", "Registration", new { id = item.Id })" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> &nbsp; CREATE ACCOUNT </a>
+                            @*<a href="@Url.Action("Create", "Registration", new { id = item.Id })" class="btn btn-success btn-sm"><i class="fa fa-check"></i></a>
+                                <a href="" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></a>*@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+
+        </table>
+    </div>
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Content/plugins/jQuery/jquery-2.2.3.min.js"></script>
+
+    <!-- DataTables -->
+    <script src="~/Content/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Content/plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <link rel="stylesheet" href="~/Content/plugins/datatables/dataTables.bootstrap.css">
+    <script>
+                $(function () {
+
+                    $('.tablesort').DataTable({
+                        "paging": true,
+                        "lengthChange": true,
+                        "searching": true,
+                        "ordering": true,
+                        "info": true,
+                        "autoWidth": true
+                    });
+                });
+    </script>
+}

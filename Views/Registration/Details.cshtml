@@ -1,0 +1,369 @@
+﻿@model DMS_v2.Models.RegistrationDetailsViewModel
+
+@{
+    ViewBag.Title = "Account Details";
+    var count = 0;
+    string[] monthNames = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.MonthNames;
+    DateTime first = new DateTime(1);
+    int day = 0;
+
+}
+
+
+<br />
+<div class="container-fluid">   
+    <div class="box box-default">
+        <div class="box-body">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="container-fluid">
+                        <div class="col-md-8">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <span style="font-size:1.6em;">
+                                            <b>
+                                                @Model.Registration.FirstName @Model.Registration.MiddleName @Model.Registration.LastName
+                                            </b>
+                                        </span>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <br />
+                                            <ul class="nav nav-pills">
+                                                <li @if (ViewBag.status == "PERSONALINFORMATION") { <text> class="active" </text> }>
+
+                                                    @Html.ActionLink("PERSONAL INFORMATION", "Details", new { @status = "PERSONALINFORMATION" })
+                                                </li>
+
+                                                <li @if (ViewBag.status == "USERSPRIVILEGE") { <text> class="active" </text>      }>
+
+                                                    @Html.ActionLink("USERS PRIVILEGE", "Details", new { @status = "USERSPRIVILEGE" })
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <h4>
+                                <strong>
+                                    <table>
+                                        <tr>
+                                            <th>
+                                                ACCOUNT STATUS:
+                                            </th>
+                                            <td>
+                                                @if (Model.Registration.IsActive == true)
+                                                {
+                                                    <span class="text-success">
+                                                        ACTIVE
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-danger">
+                                                        DEACTIVATED
+                                                    </span>
+                                                }
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>
+                                                @if (Model.Registration.IsActive == true)
+                                                {
+                                                    <span>REGISTRATION DATE: </span>
+                                                }
+                                                else
+                                                {
+                                                    <span>EXPIRY DATE: </span>
+                                                }
+                                            </th>
+                                            <td>
+                                                @if (Model.Registration.IsActive == true)
+                                                {
+                                                    <span>@Model.Registration.RegistrationDate.Value.ToString("MMM/dd/yyyy")</span>
+                                                }
+                                               
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>
+                                                USERNAME:
+                                            </th>
+                                            <td>
+                                                @Model.Registration.UserName
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>
+                                                REG. ID :
+                                            </th>
+                                            <td>
+                                                @Model.Registration.Id
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </strong>
+                            </h4>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="container-fluid">
+                <div class="col-md-9">
+                    <div class="tab-content">
+
+                        <div class="@if (ViewBag.status == "PERSONALINFORMATION")
+                                            {<text>active fade in</text>} tab-pane " id="personalinformation">
+                            <div class="container-fluid">
+                                <div class="col-md-6">
+                                    <h4>
+                                        <strong>
+                                            CONTACT INFORMATION
+                                        </strong>
+                                    </h4>
+                                    <table class="table table-condensed">
+                                        <tr>
+                                            <th>
+                                                Email Address
+                                            </th>
+                                            <td>
+                                                @Model.Registration.Email
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                Contact No.
+                                            </th>
+                                            <td>
+                                                @Model.Registration.ContactNumber
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <br />
+
+                                    <h4>
+                                        <strong>
+                                            GENERAL INFORMATION
+                                        </strong>
+                                    </h4>
+                                    <table class="table table-condensed">
+                                        <tr>
+                                           
+                                        </tr>
+                                    </table>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="@if (ViewBag.status == "USERSPRIVILEGE")
+                                            {
+                            <text>active fade in</text>} tab-pane fade" id="userprivilege">
+
+                            <div class="container-fluid">
+                                <div class="col-md-6">
+                                    <table class="table table-bordered">
+
+                                        @foreach (var item in Model.UserPrivileges.Where(i => i.RegistrationId == Model.Registration.Id))
+                                        {
+                                            count++;
+                                            <tr>
+                                                <td style="width:10%;">
+                                                    @count
+                                                </td>
+                                                <td>
+                                                    @item.Privilege.PrivilegeName
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    @if (Model.Registration.IsActive == false)
+                    {
+                        <div class="alert alert-danger">
+                            <h4>
+                                REMARKS:
+                            </h4>
+                            <p>
+                                @Model.Registration.DeactivatedRemarks
+                            </p>
+                        </div>
+                    }
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+
+                            <strong>
+                                OPTION:
+                            </strong>
+
+
+
+                            @if (Custom.Controllers.dbEmployee.UserPrivilegeNow().Where(i => i.PrivilegeId == 1).Count() > 0)
+                            {
+                                <table class="table">
+                                    @if (Model.Registration.IsActive == true)
+                                    {
+
+
+                                        <tr>
+                                            <td>
+                                                <a href="@Url.Action("Details", "Privileges", new { id = Model.Registration.Id })" class="btn btn-default btn-block"> <i class="fa fa-edit"></i> MANAGE USER PRIVILEGE</a>
+                                            </td>
+                                        </tr>
+
+
+                                            <tr>
+                                                <td>
+                                                    <a href="@Url.Action("Deactivate", "Registration", new { id = Model.Registration.Id })" class="btn btn-sm btn-danger btn-block"> <i class="fa fa-user-times"></i> DEACTIVATE ACCOUNT</a>
+                                                </td>
+                                            </tr>
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td>
+                                                <a href="@Url.Action("Activate", "Registration", new { id = Model.Registration.Id })" class="btn btn-sm btn-success btn-block"> <i class="fa fa-user-times"></i> ACTIVATE ACCOUNT</a>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </table>
+                            }
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        function UpdateDistribution(id, act) {
+
+            var distributionId = $('#DistributionId option:selected').val();
+            $.getJSON("@Url.Action("UpdateDistribution", "Registration")", { Id: id, distributionId: distributionId, act : act }, function (data) {
+                if (data.act == "update") {
+                    //var newItem = "<tr>\
+                    //        <td>" + data.ProjectName + "</td>\
+                    //        <td>" + data.PrivilegeName + "</td>\
+                    //        <td><input type=\"button\" value=\"Remove\" class=\"btn btn-danger btn-xs\" onclick=\"removePrivilege( " + data.UserPrivilegeId + ")\" /></td> \
+                    //        </tr>";
+                    //$("#UserPrivilege_tbl").prepend(newItem);
+                    //$("#UserPrivilege").val("");
+
+                    $('#distribution').text(data.distributionname);
+
+                    function alert_ActionTaken() {
+                    swal({ title: "Attention!", text: "Action has been save!", type: "success", timer: 4000, showConfirmButton: false });
+             
+                    };
+                    alert_ActionTaken()
+                    window.location.href = "/Registration/Details/" + @Model.Registration.Id;
+                }
+                else {
+
+                    swal({
+                        title: "Attention!",
+                        text: data.ErrorMessage,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    $("#UserPrivilege").val("");
+                }
+
+            });
+        }
+
+        function UpdateLGU(id, act) {
+
+            var LGUId = $('#PSGC_CityMunicipalityId option:selected').val();
+
+            $.getJSON("@Url.Action("UpdateLGU", "Registration")", { Id: id, LGUId: LGUId, act : act }, function (data) {
+                if (data.act == "update") {
+                    //var newItem = "<tr>\
+                    //        <td>" + data.ProjectName + "</td>\
+                    //        <td>" + data.PrivilegeName + "</td>\
+                    //        <td><input type=\"button\" value=\"Remove\" class=\"btn btn-danger btn-xs\" onclick=\"removePrivilege( " + data.UserPrivilegeId + ")\" /></td> \
+                    //        </tr>";
+                    //$("#UserPrivilege_tbl").prepend(newItem);
+                    //$("#UserPrivilege").val("");
+
+                    $('#lgu').text(data.lguname);
+
+                    function alert_ActionTaken() {
+                        swal({ title: "Attention!", text: "Action has been save!", type: "success", timer: 4000, showConfirmButton: false });
+             
+                    };
+                    alert_ActionTaken()
+   
+                }
+                else {
+
+                    swal({
+                        title: "Attention!",
+                        text: data.ErrorMessage,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    $("#UserPrivilege").val("");
+                }
+
+            });
+        }
+    </script>
+    <!-- DataTables -->
+    <script src="~/Content/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Content/plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <link rel="stylesheet" href="~/Content/plugins/datatables/dataTables.bootstrap.css">
+    <script>
+        $(function () {
+
+            $('.tablesort').DataTable({
+                //"paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "aaSorting": [],
+                "info": true, "aLengthMenu": [[-1, 10, 50, 100], ["All", 10, 50, 100]],
+                "autoWidth": true
+            })
+        });
+    </script>
+}
